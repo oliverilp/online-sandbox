@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/docker/docker/api/types/container"
@@ -18,7 +19,7 @@ func (m *TimeoutError) Error() string {
 }
 
 func removeContainer(cli *client.Client, containerID string) {
-	fmt.Println("Removing container", containerID)
+	log.Println("Removing container manually", containerID)
 	cli.ContainerRemove(context.Background(), containerID, container.RemoveOptions{Force: true})
 }
 
@@ -44,10 +45,10 @@ func runCode(language string, code string) (string, error) {
 		return "", fmt.Errorf("unsupported language: %s", language)
 	}
 
-	fmt.Println("\nCode:")
-	fmt.Println("=====")
-	fmt.Println(code)
-	fmt.Println("=====")
+	log.Println("Code:")
+	log.Println("=====")
+	log.Println(code)
+	log.Println("=====")
 
 	pidsLimit := int64(10)
 

@@ -1,0 +1,8 @@
+services:
+  sandbox:
+    image: online_sandbox
+    container_name: online_sandbox
+    ports:
+      - 4000:4000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

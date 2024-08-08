@@ -1,0 +1,5 @@
+./tmp
+./bin
+.dockerignore
+README.md
+LICENSE

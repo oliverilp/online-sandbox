@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -37,7 +36,6 @@ func main() {
 
 	app.Post("/", func(c *fiber.Ctx) error {
 		language := c.FormValue("language")
-		fmt.Println(language)
 		code := c.FormValue("code")
 		output, err := runCode(language, code)
 		if err != nil {
@@ -55,6 +53,6 @@ func main() {
 		})
 	})
 
-	log.Println("Starting server at :8080")
-	log.Fatal(app.Listen("localhost:8080"))
+	log.Println("Starting server at :4000")
+	log.Fatal(app.Listen(":4000"))
 }
