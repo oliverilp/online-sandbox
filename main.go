@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
-	"github.com/gofiber/template/html/v2"
+	"github.com/gofiber/template/django/v3"
 )
 
 type PageData struct {
@@ -14,7 +15,7 @@ type PageData struct {
 }
 
 func main() {
-	engine := html.New("./views", ".html")
+	engine := django.New("./views", ".django")
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
@@ -33,11 +34,14 @@ func main() {
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Render("index", fiber.Map{
-			"Code": "",
+			"Language": "python",
+			"Code":     "",
 		})
 	})
 
 	app.Post("/", func(c *fiber.Ctx) error {
+		language := c.FormValue("language")
+		fmt.Println(language)
 		code := c.FormValue("code")
 		output, err := runPHPCode(code)
 		if err != nil {
@@ -49,8 +53,9 @@ func main() {
 		}
 
 		return c.Render("index", fiber.Map{
-			"Output": output,
-			"Code":   code,
+			"Language": language,
+			"Code":     code,
+			"Output":   output,
 		})
 	})
 
