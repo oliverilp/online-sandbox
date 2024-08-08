@@ -18,9 +18,9 @@
             Select Language:
           </label>
           <select name="language" class="mt-2 w-40 p-2 border rounded">
-            <option value="python" {% if Language == "python" %}selected{% endif %}>Python</option>
-            <option value="node" {% if Language == "node" %}selected{% endif %}>Node.js</option>
-            <option value="php" {% if Language == "php" %}selected{% endif %}>PHP</option>
+            <option value="python" {% if Language == "python" %}selected{% endif %}>Python v3.12</option>
+            <option value="node" {% if Language == "node" %}selected{% endif %}>Node.js v22</option>
+            <option value="php" {% if Language == "php" %}selected{% endif %}>PHP v8</option>
           </select>
         </div>
         <div class="mb-4">

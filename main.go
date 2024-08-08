@@ -10,10 +10,6 @@ import (
 	"github.com/gofiber/template/django/v3"
 )
 
-type PageData struct {
-	Output string
-}
-
 func main() {
 	engine := django.New("./views", ".django")
 	app := fiber.New(fiber.Config{
@@ -43,7 +39,7 @@ func main() {
 		language := c.FormValue("language")
 		fmt.Println(language)
 		code := c.FormValue("code")
-		output, err := runPHPCode(code)
+		output, err := runCode(language, code)
 		if err != nil {
 			if _, ok := err.(*TimeoutError); ok {
 				output = "Execution timed out after 10 seconds."

@@ -22,10 +22,26 @@ func removeContainer(cli *client.Client, containerID string) {
 	cli.ContainerRemove(context.Background(), containerID, container.RemoveOptions{Force: true})
 }
 
-func runPHPCode(code string) (string, error) {
+func runCode(language string, code string) (string, error) {
 	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
 		return "", err
+	}
+
+	var image string
+	var cmd []string
+	switch language {
+	case "php":
+		image = "php:8-alpine"
+		cmd = []string{"php", "-r", code}
+	case "python":
+		image = "python:3.12-alpine"
+		cmd = []string{"python", "-c", code}
+	case "node":
+		image = "node:22-alpine"
+		cmd = []string{"node", "-e", code}
+	default:
+		return "", fmt.Errorf("unsupported language: %s", language)
 	}
 
 	fmt.Println("\nCode:")
@@ -33,11 +49,11 @@ func runPHPCode(code string) (string, error) {
 	fmt.Println(code)
 	fmt.Println("=====")
 
-	pidsLimit := int64(3)
+	pidsLimit := int64(10)
 
 	config := &container.Config{
-		Image:        "php:alpine",
-		Cmd:          []string{"php", "-r", code},
+		Image:        image,
+		Cmd:          cmd,
 		Tty:          false,
 		AttachStdout: true,
 		AttachStderr: true,
@@ -56,7 +72,7 @@ func runPHPCode(code string) (string, error) {
 		// },
 		Resources: container.Resources{
 			// PidsLimit: int64(10),
-			Memory:    40 * 1024 * 1024, // 40 MB
+			Memory:    25 * 1024 * 1024, // 40 MB
 			CPUQuota:  50000,
 			PidsLimit: &pidsLimit,
 		},
