@@ -1,6 +1,6 @@
 services:
   sandbox:
-    image: ghcr.io/oliverilp/online-sandbox@sha256:fd66450f13510e8c43944a1cc589c3780ba1e0d015775c63f82b34c7057f5022
+    image: ghcr.io/oliverilp/online-sandbox:latest
     container_name: online_sandbox
     ports:
       - 4000:4000
