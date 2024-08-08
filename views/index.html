@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Code Sandbox</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 p-6">
+    <div class="container mx-auto">
+      <h1 class="text-2xl font-bold mb-4">Online Code Sandbox</h1>
+      <form method="post" action="/" class="bg-white p-6 rounded shadow-md">
+        <div class="mb-4">
+          <textarea
+            name="code"
+            rows="10"
+            class="w-full p-2 border rounded"
+            placeholder="Enter your code here..."
+          >
+{{ .Code}}</textarea
+          >
+        </div>
+        <div class="mb-4">
+          <input
+            type="submit"
+            value="Run Code"
+            class="bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-blue-700"
+          />
+        </div>
+      </form>
+      {{if .Output}}
+      <h2 class="text-xl font-bold my-4">Output:</h2>
+      <pre class="bg-gray-200 p-4 rounded overflow-auto">{{.Output}}</pre>
+      {{end}}
+    </div>
+  </body>
+</html>
