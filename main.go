@@ -41,6 +41,7 @@ func main() {
 		code := c.FormValue("code")
 		output, err := runCode(language, code)
 		if err != nil {
+			log.Println("Error:", err)
 			if _, ok := err.(*TimeoutError); ok {
 				output = "Execution timed out after 10 seconds."
 			} else {
