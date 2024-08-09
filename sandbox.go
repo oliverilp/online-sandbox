@@ -19,7 +19,7 @@ func (m *TimeoutError) Error() string {
 }
 
 func removeContainer(cli *client.Client, containerID string) {
-	log.Println("Removing container manually", containerID)
+	log.Println("Removing container:", containerID)
 	cli.ContainerRemove(context.Background(), containerID, container.RemoveOptions{Force: true})
 }
 
@@ -45,6 +45,7 @@ func runCode(language string, code string) (string, error) {
 		return "", fmt.Errorf("unsupported language: %s", language)
 	}
 
+	fmt.Print("\n")
 	log.Println("Code:")
 	log.Println("=====")
 	log.Println(code)
@@ -63,7 +64,7 @@ func runCode(language string, code string) (string, error) {
 
 	hostConfig := &container.HostConfig{
 		NetworkMode:    "none",
-		AutoRemove:     true,
+		AutoRemove:     false,
 		ReadonlyRootfs: true,
 		CapDrop:        []string{"ALL"}, // Drop all capabilities
 		SecurityOpt:    []string{"no-new-privileges"},
@@ -86,8 +87,8 @@ func runCode(language string, code string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	containerID := resp.ID
+	defer removeContainer(cli, containerID)
 
 	if err := cli.ContainerStart(ctx, containerID, container.StartOptions{}); err != nil {
 		return "", err
@@ -102,8 +103,6 @@ func runCode(language string, code string) (string, error) {
 		}
 	case <-statusCh:
 	case <-ctx.Done():
-		// If the context times out, stop and remove the container
-		removeContainer(cli, containerID)
 		return "", &TimeoutError{}
 	}
 
