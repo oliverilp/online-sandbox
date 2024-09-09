@@ -4,10 +4,10 @@ services:
     container_name: online-sandbox
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.nginx.rule=Host(`code.tailkeep.org`)'
-      - 'traefik.http.routers.nginx.entrypoints=https'
-      - 'traefik.http.routers.nginx.tls=true'
-      - 'traefik.http.services.nginx.loadbalancer.server.port=4000'
+      - 'traefik.http.routers.sandbox.rule=Host(`code.tailkeep.org`)'
+      - 'traefik.http.routers.sandbox.entrypoints=https'
+      - 'traefik.http.routers.sandbox.tls=true'
+      - 'traefik.http.services.sandbox.loadbalancer.server.port=4000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
